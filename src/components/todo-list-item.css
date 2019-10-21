@@ -1,0 +1,8 @@
+.done {
+    text-decoration: line-through;
+}
+
+span:hover {
+    background-color: grey;
+    cursor: pointer;
+}
