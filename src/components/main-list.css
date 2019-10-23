@@ -1,0 +1,23 @@
+.main-list {
+    padding: 0;
+    margin-top: 0;
+}
+
+.main-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom-style: solid;
+    border-width: 2px;
+    margin-right: 10px;
+    padding: 10px;
+}
+
+.main-list li div button {
+    margin: 5px;
+}
+
+.main-list li a {
+    text-decoration: none;
+    width: 250px;
+}

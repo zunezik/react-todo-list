@@ -1,36 +1,4 @@
 {
-  "todos": [
-    {
-      "id": 1,
-      "listId": 1,
-      "done": false,
-      "task": "newTask1"
-    },
-    {
-      "id": 2,
-      "listId": 2,
-      "done": false,
-      "task": "task2"
-    },
-    {
-      "id": 3,
-      "listId": 3,
-      "done": true,
-      "task": "task2"
-    }
-  ],
-  "lists": [
-    {
-      "id": 1,
-      "name": "list1"
-    },
-    {
-      "id": 2,
-      "name": "list2"
-    },
-    {
-      "id": 3,
-      "name": "list3"
-    }
-  ]
+  "todos": [],
+  "lists": []
 }

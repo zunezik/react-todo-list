@@ -5,12 +5,16 @@ export default class MainListItem extends React.Component {
     
     render() {
         return(
-            <div>
+            <li>
                 <Link to={`/${this.props.id}`} >
-                    <span onClick = {this.props.onSelect}>{this.props.name}</span>
+                
+                    <span>{this.props.name}</span>
                 </Link>
-                <button onClick={this.props.onDeleted}>Remove</button>
-            </div>
+                <div>
+                    <button onClick={this.props.onEdit}>Edit</button>
+                    <button onClick={this.props.onDeleted}>Delete</button>
+                </div>
+            </li>
         );
     }
 }

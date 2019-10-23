@@ -12,7 +12,7 @@ export default class AddForm extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.onAdded(this.state.inputValue);
+        this.props.onAdded(this.state.inputValue, this.props.listId);
         this.setState({inputValue: ''});
     }
     
@@ -20,6 +20,7 @@ export default class AddForm extends React.Component {
         return(
         <form onSubmit={this.onSubmit}>
             <input type='text' 
+                    placeholder='Type here'
                     onChange={this.onInputChange} 
                     value={this.state.inputValue}/>
         </form>

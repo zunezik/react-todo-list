@@ -1,0 +1,45 @@
+main {
+    width: 700px;
+}
+
+main div ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+main div ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom-style: solid;
+    border-width: 2px;
+    border-color: lightcoral;
+    padding: 10px;
+}
+
+main div ul li div {
+    display: inline-block;
+    word-break: break-word;
+}
+
+main div ul {
+    margin-top: 0;
+    margin-left: 40px;
+}
+
+main div ul li button {
+    margin: 5px;
+}
+
+main div h2 {
+    margin: 0;
+    line-height: 50px;
+    width: 700px;
+    border-bottom: solid;
+    padding-left: 40px;
+    background-color: tan;
+}
+
+main form {
+    margin-left: 40px;
+}

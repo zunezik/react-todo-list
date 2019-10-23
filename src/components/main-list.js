@@ -2,26 +2,24 @@ import React from 'react';
 
 import MainListItem from './main-list-item';
 
+import './main-list.css';
+
 export default class MainList extends React.Component {
  
     render() {
         const lists = this.props.lists;
 
-        const elements = lists.map((item) => {
+        const elements = lists.map((list) => {
             return (
-                <li key = {item.id}>
-                        <MainListItem 
-                        {... item}
-                        onSelect = {() => this.props.onSelect(item.id)} 
-                        onDeleted = {() => this.props.onDeleted(item.id)} />
-                </li>
+                    <MainListItem key = {list.id}
+                        {... list}
+                        onDeleted = {() => this.props.onDeleted(list.id)} 
+                        onEdit = {() => this.props.onEdit(list.id)} />
             );
         })
 
         return(
-            <div>
-                <ul>{elements}</ul>
-            </div>
+            <ul className='main-list'>{elements}</ul>
         );
     }
 }

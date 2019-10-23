@@ -17,9 +17,19 @@ class Api {
         }).then(this.getJson);
     }
 
-    removeList(id) {
+    deleteList(id) {
         return fetch(`${listsUrl}/${id}`, {
             method: 'DELETE',
+        }).then(this.getJson);
+    }
+
+    updateList(list) {
+        return fetch(`${listsUrl}/${list.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(list)
         }).then(this.getJson);
     }
 
@@ -43,8 +53,8 @@ class Api {
         }).then(this.getJson);
     }
 
-    updateTodo(id, todo) {
-        return fetch(`${todosUrl}/${id}`, {
+    updateTodo(todo) {
+        return fetch(`${todosUrl}/${todo.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'

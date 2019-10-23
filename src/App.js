@@ -1,26 +1,31 @@
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 
 import TodoList from './components/todo-list';
 import MainList from './components/main-list';
 import AddForm from './components/add-form';
 import Api from './api';
 
+import './app.css';
+
 export default class App extends React.Component {
     constructor() {
         super()
+
         Api.getLists()
         .then((lists) => {
             this.setState({lists: lists});
-            this.setState({routes: this.makeRoutes()});
-        }) 
+        })
+
+        Api.getTodos()
+        .then((todos) => {
+            this.setState({todos: todos});
+        });
     }
 
     state = {
         todos : [],
-        lists : [],
-        selectedListId : null,
-        routes : null
+        lists : []
     }
 
     addList = (name) => {
@@ -38,19 +43,33 @@ export default class App extends React.Component {
         })
     }
 
-    removeList = (id) => {
-        Api.removeList(id)
-        .then((this.setState(({lists}) => {
-            return {lists: this.deleteArrItem(id, lists)}
+    deleteList = (id) => {
+        Api.deleteList(id)
+        .then((this.setState(({lists, todos}) => {
+            return { 
+                lists: this.deleteArrItem(id, lists),
+                todos: this.deleteTodosByListId(id, todos)
+            }
         })))
     }
 
-    onSelectList = (listId) => {
-        Api.getTodos()
-        .then((todos) => {
-            const newTodos = todos.filter((todo) => todo.listId === listId);
-            this.setState({todos: newTodos, selectedListId: listId, routes: this.makeRoutes()});
-        });
+    editListName = (id) => {
+        const lists = this.state.lists;
+        let list = lists.filter((list) => list.id === id)[0];
+        
+        let newName = prompt('Enter new name', list.name);
+        if(newName != null) {
+            list.name = newName;
+        }
+
+        this.updateList(list);
+    }
+
+    updateList = (list) => {
+        Api.updateList(list)
+        .then(this.setState(({lists}) => {
+            return {lists: this.updateArrayItem(list, lists)}
+        }))
     }
 
     createTodoItem = (text, listId) => {
@@ -69,8 +88,7 @@ export default class App extends React.Component {
         }))            
     }
 
-    addTodo = (text) => {
-        const listId = this.state.selectedListId;
+    addTodo = (text, listId) => {
         const newTodo = this.createTodoItem(text, listId);
 
         Api.saveTodo(newTodo)
@@ -82,15 +100,15 @@ export default class App extends React.Component {
         })  
     }
 
-    onToggleDone = (id) => {
+    toggleDone = (id) => {
         const todos = this.state.todos;
-        const oldItem = todos.filter((todo) => todo.id === id)[0];
-        const newItem = {...oldItem, done: !oldItem.done}
+        const oldTodo = todos.filter((todo) => todo.id === id)[0];
+        const newTodo = {...oldTodo, done: !oldTodo.done}
 
-        this.updateTodo(id, newItem);
+        this.updateTodo(newTodo);
     }
 
-    onEdit = (id) => {
+    editTodoTask = (id) => {
         const todos = this.state.todos;
         let todo = todos.filter((todo) => todo.id === id)[0];
         
@@ -99,42 +117,14 @@ export default class App extends React.Component {
             todo.task = newTask;
         }
 
-        this.updateTodo(id, todo);
+        this.updateTodo(todo);
     }
 
-    updateTodo(id, todo) {
-        Api.updateTodo(id, todo)
+    updateTodo = (todo) => {
+        Api.updateTodo(todo)
         .then(this.setState(({todos}) => {
-            const index = todos.findIndex((el) => el.id === id);
-            const newTodos = [
-                ...todos.slice(0, index),
-                todo,
-                ...todos.slice(index + 1)
-            ]
-
-            return {
-                todos: newTodos
-            }
+            return {todos: this.updateArrayItem(todo, todos)}
         }))
-    }
-
-    makeRoutes = () => {
-        let lists = this.state.lists;
-        let routes = lists.map((item) => {
-            return (
-                <Route key={`${item.id}`} path={`/${item.id}`}
-                    render={() => <div><TodoList todos = {this.state.todos}
-                                                onDeleted = {this.deleteTodo}
-                                                onToggleDone = {this.onToggleDone}
-                                                onEdit = {this.onEdit} 
-                                        />
-                                        <AddForm onAdded = {this.addTodo} />
-                                  </div>}>
-                </Route>
-            );
-        })
-
-        return routes;
     }
 
     deleteArrItem = (id, arr) => {
@@ -148,21 +138,50 @@ export default class App extends React.Component {
             return newArr;
     }
 
+    updateArrayItem = (item, arr) => {
+        const index = arr.findIndex((el) => el.id === item.id);
+            const newArr = [
+                ...arr.slice(0, index),
+                item,
+                ...arr.slice(index + 1)
+            ]
+
+            return newArr;
+    }
+
+    deleteTodosByListId = (listId, todos) => {
+        return todos.filter((todo) => todo.listId !== listId.toString());
+    }
+
     render() {
         return(
         <Router>
-            <Switch>
+            <div className='app'>
                 <Route 
-                    exact path='/' 
-                    render={() => <div><MainList lists = {this.state.lists}
-                                                onDeleted = {this.removeList}
-                                                onSelect = {this.onSelectList}
+                    path='/' 
+                    render={() => <nav>
+                                        <h1>Todo list</h1>
+                                        <MainList lists = {this.state.lists}
+                                                onDeleted = {this.deleteList}
+                                                onEdit = {this.editListName}
                                         />
                                         <AddForm onAdded = {this.addList}/>
-                                  </div>}
-                />
-                {this.state.routes}
-            </Switch>
+                                  </nav>}>
+                </Route>
+                <Route 
+                    path='/:id'
+                    render={(props) => <main><TodoList listId = {props.match.params.id}
+                                                     lists = {this.state.lists}
+                                                     todos = {this.state.todos}
+                                                     onDeleted = {this.deleteTodo}
+                                                     onToggleDone = {this.toggleDone}
+                                                     onEdit = {this.editTodoTask}
+                                              />
+                                              <AddForm listId = {props.match.params.id} 
+                                                       onAdded = {this.addTodo} />
+                                       </main>}>
+                </Route>
+            </div>
         </Router>
         );
     }

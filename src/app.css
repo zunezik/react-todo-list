@@ -1,0 +1,27 @@
+.app {
+    display: flex;
+    word-wrap: break-word;
+}
+
+.app nav {
+    margin-left: 10px;
+    border-right-style: solid;
+    border-width: 2px;
+    width: 400px;
+}
+
+.app nav h1 {
+    background-color: rgb(126, 153, 60);
+    margin: 0;
+    line-height: 50px;
+    padding-left: 10px;
+}
+
+.app nav form {
+    display: flex;
+    justify-content: center;
+}
+
+.app nav form input {
+    width: 80%;
+}
