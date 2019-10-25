@@ -13,7 +13,7 @@ export default class TodoListItem extends React.Component {
                         onClick = {this.props.onEdit}>{this.props.task}
                     </span>
                 </div>
-                <button onClick = {this.props.onDeleted}>Delete</button>
+                <button onClick = {this.props.onDelete}>Delete</button>
             </li>
         );
     }

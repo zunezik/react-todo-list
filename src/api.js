@@ -1,12 +1,8 @@
 const todosUrl = 'http://localhost:3001/todos';
 const listsUrl = 'http://localhost:3001/lists';
+const todosByListIdUrl = 'http://localhost:3001/todos?listId=';
 
 class Api {
-    constructor(todosUrl, listsUrl) {
-        this.todosUrl = todosUrl;
-        this.listsUrl = listsUrl;
-    }
-
     saveList(data) {
         return fetch(listsUrl, {
             method: 'POST',
@@ -63,8 +59,8 @@ class Api {
         }).then(this.getJson);
     }
 
-    getTodos() {
-        return fetch(todosUrl).then(this.getJson);
+    getTodosByListId(listId) {
+        return fetch(`${todosByListIdUrl}${listId}`).then(this.getJson);
     }
 
     getJson(res) {
@@ -72,4 +68,4 @@ class Api {
     }
 }
 
-export default new Api(todosUrl, listsUrl);
+export default new Api();
