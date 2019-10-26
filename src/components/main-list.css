@@ -3,7 +3,7 @@
     margin-top: 0;
 }
 
-.main-list li {
+.main-list a>div {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -13,11 +13,10 @@
     padding: 10px;
 }
 
-.main-list li div button {
+.main-list div button {
     margin: 5px;
 }
 
-.main-list li a {
-    text-decoration: none;
+.main-list span {
     width: 250px;
 }

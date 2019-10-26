@@ -2,7 +2,10 @@
     text-decoration: line-through;
 }
 
-span:hover {
-    background-color: grey;
+li>div:hover, label, input {
     cursor: pointer;
+}
+
+label {
+    width: 500px;
 }

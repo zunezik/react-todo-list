@@ -1,0 +1,12 @@
+.selected>div {
+    background: rgb(102, 211, 202);
+}
+
+a>div:hover {
+    background-color: rgb(134, 182, 224);
+}
+
+a {
+    color: rgb(5, 3, 117);
+    text-decoration: none;
+}
