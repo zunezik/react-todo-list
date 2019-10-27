@@ -39,7 +39,7 @@ export default class App extends React.Component {
 
     deleteList = (id) => {
         Api.deleteList(id)
-        .then((this.setState(({lists, todos}) => {
+        .then((this.setState(({lists}) => {
             return { 
                 lists: this.deleteArrItem(id, lists)
             }
@@ -94,12 +94,13 @@ export default class App extends React.Component {
                 <Route 
                     path='/' 
                     render={() => <nav>
-                                        <h1>Todo list</h1>
-                                        <MainList lists = {this.state.lists}
-                                                onDeleted = {this.deleteList}
-                                                onEdit = {this.editListName}
-                                        />
-                                        <AddForm onAdded = {this.addList}/>
+                                    <h1>Todo list</h1>
+                                    <MainList 
+                                        lists = {this.state.lists}
+                                        onDeleted = {this.deleteList}
+                                        onEdit = {this.editListName}
+                                    />
+                                    <AddForm onAdded = {this.addList}/>
                                   </nav>}>
                 </Route>
                 <Route 

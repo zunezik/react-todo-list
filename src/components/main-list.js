@@ -5,6 +5,14 @@ import MainListItem from './main-list-item';
 import './main-list.css';
 
 export default class MainList extends React.Component {
+
+    state = {
+        activeList: -1
+    }
+
+    select = (index) => { 
+        this.setState({activeList: index})
+    }
  
     render() {
         const lists = this.props.lists;
@@ -13,9 +21,22 @@ export default class MainList extends React.Component {
             return (
                     <MainListItem key = {list.id}
                         {... list}
-                        onDeleted = {() => this.props.onDeleted(list.id)} 
-                        onEdit = {() => this.props.onEdit(list.id)} />
-            );
+                        activeList = {list.id === this.state.activeList}
+                        onSelect = {(event) => {
+                            if(event.target.nodeName !== 'BUTTON') {
+                                this.select(list.id)
+                            }
+                        }}
+                        onDeleted = {() => {
+                            this.props.onDeleted(list.id);
+                            this.select(-1);
+                            }
+                        }
+                        onEdit = {() => {
+                            this.props.onEdit(list.id)
+                            this.select(list.id)
+                        }} />
+            )
         })
 
         return(

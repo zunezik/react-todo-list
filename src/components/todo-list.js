@@ -17,32 +17,32 @@ export default class TodoList extends React.Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.listId !== prevState.listId) {
-          return {
-            listId: nextProps.listId,
-            waitingTodos: true,
-          };
+            return {
+                listId: nextProps.listId,
+                waitingTodos: true,
+            }
         }
 
         return null;
     }
 
-      componentDidMount() {
-            Api.getTodosByListId(this.state.listId)
-              .then((todos) => {
-                  this.setState({todos: todos, waitingTodos: false});
-              })
-      }
+    componentDidMount() {
+        Api.getTodosByListId(this.state.listId)
+            .then((todos) => {
+                this.setState({todos: todos, waitingTodos: false});
+            })
+    }
 
-      componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState) {
         if (this.state.waitingTodos) {
-          Api.getTodosByListId(this.state.listId)
+            Api.getTodosByListId(this.state.listId)
             .then((todos) => {
                 this.setState({todos: todos, waitingTodos: false});
             })
         }
-      }
+    }
 
-      createTodoItem = (text, listId) => {
+    createTodoItem = (text, listId) => {
         return {
             id: null,
             listId: listId, 
