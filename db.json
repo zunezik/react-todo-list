@@ -1,4 +1,9 @@
 {
   "todos": [],
-  "lists": []
+  "lists": [
+    {
+      "id": 1,
+      "name": "one"
+    }
+  ]
 }
